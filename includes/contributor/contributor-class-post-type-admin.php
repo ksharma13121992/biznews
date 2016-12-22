@@ -11,7 +11,7 @@
  *
  * @package Biznews
  */
-class People_Post_Type_Admin {
+class Contributor_Post_Type_Admin {
 
 	protected $registration_handler;
 
@@ -47,7 +47,7 @@ class People_Post_Type_Admin {
 	 * @return array Amended columns.
 	 */
 	public function add_image_column( $columns ) {
-		$column_thumbnail = array( 'thumbnail' => __( 'Image', 'people-post-type' ) );
+		$column_thumbnail = array( 'thumbnail' => __( 'Image', 'contributor-post-type' ) );
 		return array_slice( $columns, 0, 2, true ) + $column_thumbnail + array_slice( $columns, 1, null, true );
 	}
 

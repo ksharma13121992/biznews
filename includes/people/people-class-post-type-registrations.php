@@ -18,7 +18,7 @@ class People_Post_Type_Registrations {
 	public $taxonomies = array( 'people-category');
 
 	public function init() {
-		// Add the companiespost type and taxonomies
+		// Add the peoplepost type and taxonomies
 		add_action( 'init', array( $this, 'register' ) );
 	}
 

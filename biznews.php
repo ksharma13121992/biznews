@@ -117,7 +117,7 @@ if ( is_admin() ) {
 
 }
 /****************************************
-**********rojects post type*************
+**********Projects post type*************
 ****************************************/
 require plugin_dir_path( __FILE__ ) . 'includes/project/project-class-post-type.php';
 require plugin_dir_path( __FILE__ ) . 'includes/project/project-class-post-type-registrations.php';
@@ -188,7 +188,259 @@ if ( is_admin() ) {
 
 	require plugin_dir_path( __FILE__ ) . 'includes/people/people-class-post-type-admin.php';
 
-	$people_post_type_admin = new Companies_Post_Type_Admin( $people_post_type_registrations );
+	$people_post_type_admin = new People_Post_Type_Admin( $people_post_type_registrations );
 	$people_post_type_admin->init();
+
+}
+/****************************************
+**********Location post type*************
+****************************************/
+// Required files for registering the post type and taxonomies.
+require plugin_dir_path( __FILE__ ) . 'includes/location/location-class-post-type.php';
+require plugin_dir_path( __FILE__ ) . 'includes/location/location-class-post-type-registrations.php';
+require plugin_dir_path( __FILE__ ) . 'includes/location/location-class-post-type-metaboxes.php';
+
+// Instantiate registration class, so we can add it as a dependency to main plugin class.
+$location_post_type_registrations = new Location_Post_Type_Registrations;
+
+// Instantiate main plugin file, so activation callback does not need to be static.
+$location_post_type = new Location_Post_Type( $location_post_type_registrations );
+
+// Register callback that is fired when the plugin is activated.
+register_activation_hook( __FILE__, array( $location_post_type, 'activate' ) );
+
+// Initialize registrations for post-activation requests.
+$location_post_type_registrations->init();
+
+// Initialize metaboxes
+$location_post_type_metaboxes = new Location_Post_Type_Metaboxes;
+$location_post_type_metaboxes->init();
+
+
+/**
+ * Adds styling to the dashboard for the post type and adds investment posts
+ * to the "At a Glance" metabox.
+ */
+if ( is_admin() ) {
+
+	// Loads for users viewing the WordPress dashboard
+	if ( ! class_exists( 'Dashboard_Glancer' ) ) {
+		require plugin_dir_path( __FILE__ ) . 'includes/location/location-class-dashboard-glancer.php';  // WP 3.8
+	}
+
+	require plugin_dir_path( __FILE__ ) . 'includes/location/location-class-post-type-admin.php';
+
+	$location_post_type_admin = new Location_Post_Type_Admin( $location_post_type_registrations );
+	$location_post_type_admin->init();
+
+}
+/****************************************
+**********Event post type*************
+****************************************/
+// Required files for registering the post type and taxonomies.
+require plugin_dir_path( __FILE__ ) . 'includes/event/event-class-post-type.php';
+require plugin_dir_path( __FILE__ ) . 'includes/event/event-class-post-type-registrations.php';
+require plugin_dir_path( __FILE__ ) . 'includes/event/event-class-post-type-metaboxes.php';
+
+// Instantiate registration class, so we can add it as a dependency to main plugin class.
+$event_post_type_registrations = new Event_Post_Type_Registrations;
+
+// Instantiate main plugin file, so activation callback does not need to be static.
+$event_post_type = new Event_Post_Type( $event_post_type_registrations );
+
+// Register callback that is fired when the plugin is activated.
+register_activation_hook( __FILE__, array( $event_post_type, 'activate' ) );
+
+// Initialize registrations for post-activation requests.
+$event_post_type_registrations->init();
+
+// Initialize metaboxes
+$event_post_type_metaboxes = new Event_Post_Type_Metaboxes;
+$event_post_type_metaboxes->init();
+
+
+/**
+ * Adds styling to the dashboard for the post type and adds investment posts
+ * to the "At a Glance" metabox.
+ */
+if ( is_admin() ) {
+
+	// Loads for users viewing the WordPress dashboard
+	if ( ! class_exists( 'Dashboard_Glancer' ) ) {
+		require plugin_dir_path( __FILE__ ) . 'includes/event/event-class-dashboard-glancer.php';  // WP 3.8
+	}
+
+	require plugin_dir_path( __FILE__ ) . 'includes/event/event-class-post-type-admin.php';
+
+	$event_post_type_admin = new Event_Post_Type_Admin( $event_post_type_registrations );
+	$event_post_type_admin->init();
+
+}
+/****************************************
+**********Acquisition post type*************
+****************************************/
+// Required files for registering the post type and taxonomies.
+require plugin_dir_path( __FILE__ ) . 'includes/acquisition/acquisition-class-post-type.php';
+require plugin_dir_path( __FILE__ ) . 'includes/acquisition/acquisition-class-post-type-registrations.php';
+require plugin_dir_path( __FILE__ ) . 'includes/acquisition/acquisition-class-post-type-metaboxes.php';
+
+// Instantiate registration class, so we can add it as a dependency to main plugin class.
+$acquisition_post_type_registrations = new Acquisition_Post_Type_Registrations;
+
+// Instantiate main plugin file, so activation callback does not need to be static.
+$acquisition_post_type = new Acquisition_Post_Type( $acquisition_post_type_registrations );
+
+// Register callback that is fired when the plugin is activated.
+register_activation_hook( __FILE__, array( $acquisition_post_type, 'activate' ) );
+
+// Initialize registrations for post-activation requests.
+$acquisition_post_type_registrations->init();
+
+// Initialize metaboxes
+$acquisition_post_type_metaboxes = new Acquisition_Post_Type_Metaboxes;
+$acquisition_post_type_metaboxes->init();
+
+
+/**
+ * Adds styling to the dashboard for the post type and adds investment posts
+ * to the "At a Glance" metabox.
+ */
+if ( is_admin() ) {
+
+	// Loads for users viewing the WordPress dashboard
+	if ( ! class_exists( 'Dashboard_Glancer' ) ) {
+		require plugin_dir_path( __FILE__ ) . 'includes/acquisition/acquisition-class-dashboard-glancer.php';  // WP 3.8
+	}
+
+	require plugin_dir_path( __FILE__ ) . 'includes/acquisition/acquisition-class-post-type-admin.php';
+
+	$acquisition_post_type_admin = new Acquisition_Post_Type_Admin( $acquisition_post_type_registrations );
+	$acquisition_post_type_admin->init();
+
+}
+/****************************************
+**********Award post type*************
+****************************************/
+// Required files for registering the post type and taxonomies.
+require plugin_dir_path( __FILE__ ) . 'includes/award/award-class-post-type.php';
+require plugin_dir_path( __FILE__ ) . 'includes/award/award-class-post-type-registrations.php';
+require plugin_dir_path( __FILE__ ) . 'includes/award/award-class-post-type-metaboxes.php';
+
+// Instantiate registration class, so we can add it as a dependency to main plugin class.
+$award_post_type_registrations = new Award_Post_Type_Registrations;
+
+// Instantiate main plugin file, so activation callback does not need to be static.
+$award_post_type = new Award_Post_Type( $award_post_type_registrations );
+
+// Register callback that is fired when the plugin is activated.
+register_activation_hook( __FILE__, array( $award_post_type, 'activate' ) );
+
+// Initialize registrations for post-activation requests.
+$award_post_type_registrations->init();
+
+// Initialize metaboxes
+$award_post_type_metaboxes = new Award_Post_Type_Metaboxes;
+$award_post_type_metaboxes->init();
+
+
+/**
+ * Adds styling to the dashboard for the post type and adds investment posts
+ * to the "At a Glance" metabox.
+ */
+if ( is_admin() ) {
+
+	// Loads for users viewing the WordPress dashboard
+	if ( ! class_exists( 'Dashboard_Glancer' ) ) {
+		require plugin_dir_path( __FILE__ ) . 'includes/award/award-class-dashboard-glancer.php';  // WP 3.8
+	}
+
+	require plugin_dir_path( __FILE__ ) . 'includes/award/award-class-post-type-admin.php';
+
+	$award_post_type_admin = new Award_Post_Type_Admin( $award_post_type_registrations );
+	$award_post_type_admin->init();
+
+}
+/****************************************
+**********Funding Round Post Type*******
+****************************************/
+// Required files for registering the post type and taxonomies.
+require plugin_dir_path( __FILE__ ) . 'includes/fundinground/fundinground-class-post-type.php';
+require plugin_dir_path( __FILE__ ) . 'includes/fundinground/fundinground-class-post-type-registrations.php';
+require plugin_dir_path( __FILE__ ) . 'includes/fundinground/fundinground-class-post-type-metaboxes.php';
+
+// Instantiate registration class, so we can add it as a dependency to main plugin class.
+$fundinground_post_type_registrations = new Fundinground_Post_Type_Registrations;
+
+// Instantiate main plugin file, so activation callback does not need to be static.
+$fundinground_post_type = new Fundinground_Post_Type( $fundinground_post_type_registrations );
+
+// Register callback that is fired when the plugin is activated.
+register_activation_hook( __FILE__, array( $fundinground_post_type, 'activate' ) );
+
+// Initialize registrations for post-activation requests.
+$fundinground_post_type_registrations->init();
+
+// Initialize metaboxes
+$fundinground_post_type_metaboxes = new Fundinground_Post_Type_Metaboxes;
+$fundinground_post_type_metaboxes->init();
+
+
+/**
+ * Adds styling to the dashboard for the post type and adds investment posts
+ * to the "At a Glance" metabox.
+ */
+if ( is_admin() ) {
+
+	// Loads for users viewing the WordPress dashboard
+	if ( ! class_exists( 'Dashboard_Glancer' ) ) {
+		require plugin_dir_path( __FILE__ ) . 'includes/fundinground/fundinground-class-dashboard-glancer.php';  // WP 3.8
+	}
+
+	require plugin_dir_path( __FILE__ ) . 'includes/fundinground/fundinground-class-post-type-admin.php';
+
+	$fundinground_post_type_admin = new Fundinground_Post_Type_Admin( $fundinground_post_type_registrations );
+	$fundinground_post_type_admin->init();
+
+}
+/****************************************
+**********Contributor Post Type*******
+****************************************/
+// Required files for registering the post type and taxonomies.
+require plugin_dir_path( __FILE__ ) . 'includes/contributor/contributor-class-post-type.php';
+require plugin_dir_path( __FILE__ ) . 'includes/contributor/contributor-class-post-type-registrations.php';
+require plugin_dir_path( __FILE__ ) . 'includes/contributor/contributor-class-post-type-metaboxes.php';
+
+// Instantiate registration class, so we can add it as a dependency to main plugin class.
+$contributor_post_type_registrations = new Contributor_Post_Type_Registrations;
+
+// Instantiate main plugin file, so activation callback does not need to be static.
+$contributor_post_type = new Contributor_Post_Type( $contributor_post_type_registrations );
+
+// Register callback that is fired when the plugin is activated.
+register_activation_hook( __FILE__, array( $contributor_post_type, 'activate' ) );
+
+// Initialize registrations for post-activation requests.
+$contributor_post_type_registrations->init();
+
+// Initialize metaboxes
+$contributor_post_type_metaboxes = new Contributor_Post_Type_Metaboxes;
+$contributor_post_type_metaboxes->init();
+
+
+/**
+ * Adds styling to the dashboard for the post type and adds investment posts
+ * to the "At a Glance" metabox.
+ */
+if ( is_admin() ) {
+
+	// Loads for users viewing the WordPress dashboard
+	if ( ! class_exists( 'Dashboard_Glancer' ) ) {
+		require plugin_dir_path( __FILE__ ) . 'includes/contributor/contributor-class-dashboard-glancer.php';  // WP 3.8
+	}
+
+	require plugin_dir_path( __FILE__ ) . 'includes/contributor/contributor-class-post-type-admin.php';
+
+	$contributor_post_type_admin = new Contributor_Post_Type_Admin( $contributor_post_type_registrations );
+	$contributor_post_type_admin->init();
 
 }
