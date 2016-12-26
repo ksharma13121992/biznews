@@ -42,14 +42,6 @@ class People_Post_Type_Metaboxes {
 			'high'
 		);
 		add_meta_box( 
-	        'people_project_taxonomy', 
-	        'People Project',
-	        array( $this, 'people_project_taxonomy' ),// $callback
-	        'People', 
-	        'normal', 
-	        'high' 
-	    );
-		add_meta_box( 
 	        'people_gallery', 
 	        'Gallery',
 	        array( $this, 'people_gallery' ),// $callback
@@ -71,35 +63,100 @@ class People_Post_Type_Metaboxes {
 
 		$meta = get_post_custom( $post->ID );
 		// print_r($meta);
-		$people_fund_raised = ! isset( $meta['people_fund_raised'][0] ) ? '' : $meta['people_fund_raised'][0];
-		$people_excerpt = ! isset( $meta['people_excerpt'][0] ) ? '' : $meta['people_excerpt'][0];
+		$primary_role = ! isset( $meta['primary_role'][0] ) ? '' : $meta['primary_role'][0];
+		$primary_company = !isset($meta['primary_company'][0]) ? '' : $meta['primary_company'][0];
+		$people_born = ! isset( $meta['people_born'][0] ) ? '' : $meta['people_born'][0];
+		$people_gender = ! isset( $meta['people_gender'][0] ) ? '' : $meta['people_gender'][0];
 		$people_website = ! isset( $meta['people_website'][0] ) ? '' : $meta['people_website'][0];
 		$people_website_url = ! isset( $meta['people_website_url'][0] ) ? '' : $meta['people_website_url'][0];
 		$people_facebook = ! isset( $meta['people_facebook'][0] ) ? '' : $meta['people_facebook'][0];
 		$people_linkedin = ! isset( $meta['people_linkedin'][0] ) ? '' : $meta['people_linkedin'][0];
 		$people_twitter = ! isset( $meta['people_twitter'][0] ) ? '' : $meta['people_twitter'][0];
-
+		$people_location = ! isset( $meta['people_location'][0] ) ? '' : $meta['people_location'][0];
 		wp_nonce_field( basename( __FILE__ ), 'people_overview' ); ?>
 
 		<table class="form-table">
-
 			<tr>
-				<td class="investment_meta_box_td" colspan="2">
-					<label for="people_fund_raised"><?php _e( 'Funds Raised', 'biznews' ); ?>
+				<td class="people_meta_box_td" colspan="2">
+					<label for="primary_role"><?php _e( 'Primary Role', 'biznews' ); ?>
 					</label>
 				</td>
 				<td colspan="4">
-					<input type="text" name="people_fund_raised" class="regular-text" value="<?php echo $people_fund_raised; ?>">
+					<input type="text" name="primary_role" class="regular-text" value="<?php echo $primary_role; ?>">
 				</td>
 			</tr>
 			<tr>
 				<td class="people_meta_box_td" colspan="2">
-					<label for="people_excerpt"><?php _e( 'Excerpt', 'biznews' ); ?>
+					<label for="primary_company"><?php _e( 'Primary Company', 'biznews' ); ?>
 					</label>
 				</td>
 				<td colspan="4">
-					<!-- <input type="text" name="people_excerpt" class="regular-text" value="<?php echo $people_excerpt; ?>"> -->
-					<textarea name="people_excerpt" class="regular-text" cols="100" rows="4"><?php echo $people_excerpt; ?></textarea>
+					<?php
+					    $co_query = new WP_Query( 'post_type=companies' );
+					    if ( $co_query->have_posts() ) {
+					       	echo '<select name="primary_company" class="regular-text">';
+							    while ( $co_query->have_posts() ) {
+							        $co_query->the_post();
+								        $id = get_the_ID();
+								        $selected = "";
+								       	if($primary_company){
+									        if($id == $primary_company){
+									            $selected = 'selected';
+									        }
+								       	}
+										echo '<option value="'.$id.'" '.$selected.'>'. get_the_title() .'</option>';
+							    }
+							echo '</select>';		
+						}	
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td class="people_meta_box_td" colspan="2">
+					<label for="people_born"><?php _e( 'Born', 'biznews' ); ?>
+					</label>
+				</td>
+				<td colspan="4">
+					<input type="date" name="people_born" class="regular-text" value="<?php echo $people_born; ?>">
+				</td>
+			</tr>
+			<tr>
+				<td class="people_meta_box_td" colspan="2">
+					<label for="people_gender"><?php _e( 'Born', 'biznews' ); ?>
+					</label>
+				</td>
+				<td colspan="4">
+					<select name="people_gender" class="regular-text">
+						<option value="male" <?php if($people_gender == 'male') { echo "selected";} ?> >Male</option>
+						<option value="female" <?php if($people_gender == 'female') { echo "selected";} ?> >Female</option>
+						<option value="other" <?php if($people_gender == 'other') { echo "selected";} ?> >Other</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="people_meta_box_td" colspan="2">
+					<label for="people_location"><?php _e( 'Location', 'biznews' ); ?>
+					</label>
+				</td>
+				<td colspan="4">
+					<?php
+					    $lo_query = new WP_Query( 'post_type=location' );
+					    if ( $lo_query->have_posts() ) {
+					       	echo '<select name="people_location" class="regular-text">';
+							    while ( $lo_query->have_posts() ) {
+							        $lo_query->the_post();
+								       	$lo_id = get_the_ID();
+								        $lo_selected = "";
+								       	if($people_location){
+									        if($lo_id == $people_location){
+									            $lo_selected = 'selected';
+									        }
+								       	}
+										echo '<option value="'.$lo_id.'" '.$lo_selected.'>'. get_the_title() .'</option>';
+							    }
+							echo '</select>';		
+						}	
+					?>
 				</td>
 			</tr>
 			<tr>
@@ -152,73 +209,23 @@ class People_Post_Type_Metaboxes {
 
 		<?php 
 	}
-	function people_detail_meta_boxes( $post ) {
+	function people_detail_meta_boxes( $post,$args ) {
 		$meta = get_post_custom( $post->ID );
-		$people_founded = ! isset( $meta['people_founded'][0] ) ? '' : $meta['people_founded'][0];
-		$people_contact = ! isset( $meta['people_contact'][0] ) ? '' : $meta['people_contact'][0];
-		$people_employees = ! isset( $meta['people_employees'][0] ) ? '' : $meta['people_employees'][0];
-		// $people_description = ! isset( $meta['people_description'][0] ) ? '' : $meta['people_description'][0];
-		// wp_nonce_field( plugin_basename( __FILE__ ), 'people_details' ); ?>
+		$people_aliase = ! isset( $meta['people_aliase'][0] ) ? '' : $meta['people_aliase'][0];
+		?>
 		<table class="form-table">
 			<tr>
 				<td class="people_meta_box_td" colspan="2">
-					<label for="people_founded"><?php _e( 'Founded', 'biznews' ); ?>
+					<label for="people_aliase"><?php _e( 'Aliases', 'biznews' ); ?>
 					</label>
 				</td>
 				<td colspan="4">
-					<input type="date" name="people_founded" class="regular-text" value="<?php echo $people_founded; ?>">
+					<input type="text" name="people_aliase" class="regular-text" value="<?php echo $people_aliase; ?>">
 				</td>
 			</tr>
-			<tr>
-				<td class="people_meta_box_td" colspan="2">
-					<label for="people_contact"><?php _e( 'Contact', 'biznews' ); ?>
-					</label>
-				</td>
-				<td colspan="4">
-					<input type="text" name="people_contact" class="regular-text" value="<?php echo $people_contact; ?>">
-				</td>
-			</tr>
-			<tr>
-				<td class="people_meta_box_td" colspan="2">
-					<label for="people_employees"><?php _e( 'Employees', 'biznews' ); ?>
-					</label>
-				</td>
-				<td colspan="4">
-					<input type="text" name="people_employees" class="regular-text" value="<?php echo $people_employees; ?>">
-					<p class="description"><?php _e( 'Number of Employees' ); ?></p>
-				</td>
-			</tr>
-			<!-- <tr>
-				<td class="people_meta_box_td" colspan="2">
-					<label for="people_description"><?php _e( 'Description', 'biznews' ); ?>
-					</label>
-				</td>
-				<td colspan="4">
-				<textarea name="people_description" class="regular-text" cols="100" rows="16"><?php echo $people_description; ?></textarea>
-				</td>
-			</tr> -->
 		</table>
 
 		<?php 
-	}
-	function people_project_taxonomy( $post , $args ){
-		wp_nonce_field( basename( __FILE__ ), 'people_project_taxonomy' ); 
-	    $query = new WP_Query( 'post_type=project' );
-	    if ( $query->have_posts() ) {
-		    while ( $query->have_posts() ) {
-		        $query->the_post();
-		    	$p_taxonomy_id = get_post_meta($post->ID, 'people_project_taxonomy', true);
-		    	// print_r($p_taxonomy_id);
-		        $id = get_the_ID();
-		        $selected = "";
-		       	if($p_taxonomy_id){
-			        if(in_array($id, $p_taxonomy_id)){
-			            $selected = 'checked';
-			        }
-		       	}
-		        echo '<input name="people_project_taxonomy[]" type="checkbox" id="people_project_taxonomy"' . $selected . ' value="' . $id . '" >' . get_the_title() .'<br/>';
-		    }
-		}
 	}
 	function people_gallery($post){
 	    echo '<table class="form-table">';
@@ -293,18 +300,17 @@ class People_Post_Type_Metaboxes {
 			return $post_id;
 		}
 
-		$meta['people_fund_raised'] = ( isset( $_POST['people_fund_raised'] ) ? esc_textarea($_POST['people_fund_raised']) : '' );
-		$meta['people_excerpt'] = ( isset( $_POST['people_excerpt'] ) ? esc_textarea($_POST['people_excerpt']) : '' );
+		$meta['primary_role'] = ( isset( $_POST['primary_role'] ) ? esc_textarea($_POST['primary_role']) : '' );
+		$meta['people_born'] = ( isset( $_POST['people_born'] ) ? esc_textarea($_POST['people_born']) : '' );
+		$meta['people_gender'] = ( isset( $_POST['people_gender'] ) ? esc_textarea($_POST['people_gender']) : '' );
 		$meta['people_website'] = ( isset( $_POST['people_website'] ) ? esc_textarea($_POST['people_website']) : '' );
 		$meta['people_website_url'] = ( isset( $_POST['people_website_url'] ) ? esc_textarea($_POST['people_website_url']) : '' );
 		$meta['people_facebook'] = ( isset( $_POST['people_facebook'] ) ? esc_url($_POST['people_facebook'] ): '' );
 		$meta['people_linkedin'] = ( isset( $_POST['people_linkedin'] ) ? esc_url($_POST['people_linkedin'] ): '' );
 		$meta['people_twitter'] = ( isset( $_POST['people_twitter'] ) ? esc_url($_POST['people_twitter'] ): '' );
-		$meta['people_founded'] = ( isset( $_POST['people_founded'] ) ? esc_textarea($_POST['people_founded']) : '' );
-		$meta['people_contact'] = ( isset( $_POST['people_contact'] ) ? esc_textarea($_POST['people_contact'] ): '' );
-		$meta['people_employees'] = ( isset( $_POST['people_employees'] ) ? esc_textarea($_POST['people_employees'] ): '' );
-		// $meta['people_description'] = ( isset( $_POST['people_description'] ) ? esc_textarea($_POST['people_description'] ): '' );
-		$meta['people_project_taxonomy'] = ( isset( $_POST['people_project_taxonomy'] ) ? $_POST['people_project_taxonomy'] : '' );
+		$meta['people_aliase'] = ( isset( $_POST['people_aliase'] ) ? esc_textarea($_POST['people_aliase']) : '' );
+		$meta['primary_company'] = ( isset( $_POST['primary_company'] ) ? $_POST['primary_company'] : '' );
+		$meta['people_location'] = ( isset( $_POST['people_location'] ) ? $_POST['people_location'] : '' );
 
 		$people_repeatable = 'people_repeatable';
 	    $index = 0;

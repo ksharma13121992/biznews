@@ -15,7 +15,7 @@ class Fundinground_Post_Type_Registrations {
 
 	public $post_type = 'fundinground';
 
-	public $taxonomies = array( 'fundinground-category');
+	public $taxonomies = array( 'funding-type');
 
 	public function init() {
 		// Add the fundingroundpost type and taxonomies
@@ -77,22 +77,22 @@ class Fundinground_Post_Type_Registrations {
 
 	protected function register_fundinground_category() {
 		$labels = array(
-			'name'                       => __( 'Fundinground Category Type', 'biznews' ),
-			'singular_name'              => __( 'Fundinground Category Type', 'biznews' ),
-			'menu_name'                  => __( 'Fundinground Category Type', 'biznews' ),
-			'edit_item'                  => __( 'Edit Fundinground Category Type', 'biznews' ),
-			'update_item'                => __( 'Update Fundinground Category Type', 'biznews' ),
-			'add_new_item'               => __( 'Add New Fundinground Category Type', 'biznews' ),
-			'new_item_name'              => __( 'New Fundinground Category Type Name', 'biznews' ),
-			'parent_item'                => __( 'Parent Fundinground Category Type', 'biznews' ),
-			'parent_item_colon'          => __( 'Parent Fundinground Category Type:', 'biznews' ),
-			'all_items'                  => __( 'All Fundinground Category Types', 'biznews' ),
-			'search_items'               => __( 'Search Fundinground Category Types', 'biznews' ),
-			'popular_items'              => __( 'Popular Fundinground Category Type', 'biznews' ),
-			'separate_items_with_commas' => __( 'Separate Fundinground Category Type with commas', 'biznews' ),
-			'add_or_remove_items'        => __( 'Add or remove Fundinground Category Type', 'biznews' ),
-			'choose_from_most_used'      => __( 'Choose from the most used Fundinground Category Types', 'biznews' ),
-			'not_found'                  => __( 'No Fundinground Category Type found.', 'biznews' ),
+			'name'                       => __( 'Funding Type', 'biznews' ),
+			'singular_name'              => __( 'Funding Type', 'biznews' ),
+			'menu_name'                  => __( 'Funding Type', 'biznews' ),
+			'edit_item'                  => __( 'Edit FundingType', 'biznews' ),
+			'update_item'                => __( 'Update Funding Type', 'biznews' ),
+			'add_new_item'               => __( 'Add New Funding Type', 'biznews' ),
+			'new_item_name'              => __( 'New Funding Type Name', 'biznews' ),
+			'parent_item'                => __( 'Parent Funding Type', 'biznews' ),
+			'parent_item_colon'          => __( 'Parent Funding Type:', 'biznews' ),
+			'all_items'                  => __( 'All Funding Types', 'biznews' ),
+			'search_items'               => __( 'Search Funding Types', 'biznews' ),
+			'popular_items'              => __( 'Popular Funding Type', 'biznews' ),
+			'separate_items_with_commas' => __( 'Separate Funding Type with commas', 'biznews' ),
+			'add_or_remove_items'        => __( 'Add or remove Funding Type', 'biznews' ),
+			'choose_from_most_used'      => __( 'Choose from the most used Funding Types', 'biznews' ),
+			'not_found'                  => __( 'No Funding Type found.', 'biznews' ),
 		);
 		$args = array(
 			'labels'            => $labels,
@@ -101,7 +101,7 @@ class Fundinground_Post_Type_Registrations {
 			'show_ui'           => true,
 			'show_tagcloud'     => true,
 			'hierarchical'      => true,
-			'rewrite'           => array( 'slug' => 'fundinground-category' ),
+			'rewrite'           => array( 'slug' => 'funding-type' ),
 			'show_admin_column' => true,
 			'query_var'         => true,
 		);
